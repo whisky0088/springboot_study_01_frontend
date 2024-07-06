@@ -1,31 +1,33 @@
-import axios from 'axios';
+
 import {ElMessage} from "element-plus";
+import axios from "axios";
 
-const defaultError=()=>ElMessage.error('发生了一些错误，请联系管理员')
-const defaultFailure=()=>ElMessage.warning('用户名或密码错误')
-function post(url,data,success,failure=defaultFailure,error=defaultError){
-    axios.post(url,data,{
-        headers:{
-            'Content-Type':'application/x-www-form-urlencoded'
+const defaultError = () => ElMessage.error('发生了一些错误，请联系管理员')
+const defaultFailure = (message) => ElMessage.warning(message)
+
+function post(url, data, success, failure = defaultFailure, error = defaultError) {
+    axios.post(url, data, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        withCredentials:true
-    }).then(({data})=>{
+        withCredentials: true
+    }).then(({data}) => {
         if(data.success)
-            success(data.message,data.status)
+            success(data.message, data.status)
         else
-            failure(data.message,data.status)
+            failure(data.message, data.status)
     }).catch(error)
 }
 
-function get(url,success,failure=defaultFailure,error=defaultError){
-    axios.get(url,{
-        withCredentials:true
-    }).then(({data})=>{
+function get(url, success, failure = defaultFailure, error = defaultError) {
+    axios.get(url, {
+        withCredentials: true
+    }).then(({data}) => {
         if(data.success)
-            success(data.message,data.status)
+            success(data.message, data.status)
         else
-            failure(data.message,data.status)
+            failure(data.message, data.status)
     }).catch(error)
 }
 
-export {get,post}
+export { get, post }

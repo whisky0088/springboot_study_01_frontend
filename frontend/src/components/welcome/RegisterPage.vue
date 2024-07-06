@@ -3,7 +3,7 @@ import {Lock, User, Message, EditPen} from "@element-plus/icons-vue";
 import router from "@/router/index.js";
 import {reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
-import {post} from "@/net/index.js";
+import {post} from "@/net/";
 
 const form=reactive({
   username:'',
@@ -82,12 +82,15 @@ const register=()=>{
 }
 
 const validateEmail=()=>{
-  post('/api/auth/valid-email', {
+  coldTime.value=60
+  post('/api/auth/valid-register-email', {
     email: form.email
   },(message)=>{
     ElMessage.success(message)
-    coldTime.value=60
     setInterval(()=>coldTime.value--,1000)
+  },(message)=>{
+    ElMessage.warning(message)
+    coldTime.value=0
   })
 }
 </script>
